@@ -1,0 +1,204 @@
+{% extends "blog/base.html" %}
+{% load apptags %}
+{% block content %}
+	<h1>HaruFE Characters</h1>
+	<article class="media content-section {{ object.get_affinity_display }}">
+		<h2><a href="{% url 'character-sheet-detail' object.id %}"></a></h2>
+		<img class="rounded-circle article-img" src="{{ object.user.profile.image.url }}">
+		<div class="media-body">
+			<div class="article-metadata">
+				<a class="mr-2" href="{% url 'user-characters' object.user.username %}">{{ object.user.username }}</a>
+				<small class="text-muted"> | Date created: {{ object.date_created }}</small>
+				{% if object.user == user %}
+					<div>
+						<a class='btn btn-secondary btn-sm mt-1 mb-1' href="{% url 'character-sheet-update' object.id %}">Update</a>
+						<a class='btn btn-danger btn-sm mt-1 mb-1' href="{% url 'character-sheet-delete' object.id %}">Delete</a>
+					</div>
+				{% endif %}
+			</div>
+			<h2>{{ object.name }}</h2>
+				<div>
+					<p class="text-muted">Level {{ object.level }} {{ object.role.name }}</p>
+			<table>
+				<tr>
+					<th class="col-lg-6 col-md-12 d-flex">Origin</th>
+					<td>{{ object.origin }}</td>
+				</tr>
+				<tr>
+					<th class="col-lg-6 col-md-12 d-flex">Affinity</th>
+					<td>{{ object.get_affinity_display }}</td>
+				</tr>
+				<tr>
+					<th class="col-lg-6 col-md-12 d-flex">Boon</th>
+					<td>{{ object.get_boon_display }}</td>
+				</tr>
+				<tr>
+					<th class="col-lg-6 col-md-12 d-flex">Bane</th>
+					<td>{{ object.get_bane_display }}</td>
+				</tr>
+			</table>
+			<br>
+			<h4>Stats:</h4>
+			<table>
+				<tr>
+					<th class="stat col-sm-1"></th>
+					<th class="stat col-sm-1">HP</th>
+					<th class="stat col-sm-1">STR</th>
+					<th class="stat col-sm-1">MAG</th>
+					<th class="stat col-sm-1">SKL</th>
+					<th class="stat col-sm-1">SPD</th>
+					<th class="stat col-sm-1">LCK</th>
+					<th class="stat col-sm-1">DEF</th>
+					<th class="stat col-sm-1">RES</th>
+					<th class="stat col-sm-1">CON</th>
+				</tr>
+				<tr>
+					<th class="stat col-sm-1">Stats</th>
+					<td class="stat col-sm-1">{{ object.stat_set.hp }}</td>
+					<td class="stat col-sm-1">{{ object.stat_set.strength }}</td>
+					<td class="stat col-sm-1">{{ object.stat_set.magic }}</td>
+					<td class="stat col-sm-1">{{ object.stat_set.skill }}</td>
+					<td class="stat col-sm-1">{{ object.stat_set.speed }}</td>
+					<td class="stat col-sm-1">{{ object.stat_set.luck }}</td>
+					<td class="stat col-sm-1">{{ object.stat_set.defense }}</td>
+					<td class="stat col-sm-1">{{ object.stat_set.resistance }}</td>
+					<td class="stat col-sm-1">{{ object.stat_set.constitution }}</td>
+				</tr>
+				<tr>
+					<th class="stat col-sm-1">Growths</th>
+					<td class="stat col-sm-1">{{ object.growth_set.hp|percentage }}</td>
+					<td class="stat col-sm-1">{{ object.growth_set.strength|percentage }}</td>
+					<td class="stat col-sm-1">{{ object.growth_set.magic|percentage }}</td>
+					<td class="stat col-sm-1">{{ object.growth_set.skill|percentage }}</td>
+					<td class="stat col-sm-1">{{ object.growth_set.speed|percentage }}</td>
+					<td class="stat col-sm-1">{{ object.growth_set.luck|percentage }}</td>
+					<td class="stat col-sm-1">{{ object.growth_set.defense|percentage }}</td>
+					<td class="stat col-sm-1">{{ object.growth_set.resistance|percentage }}</td>
+					<td class="stat col-sm-1">{{ object.growth_set.constitution|percentage }}</td>
+				</tr>
+				<tr>
+					<th class="stat col-sm-1">Caps</th>
+					<td class="stat col-sm-1">{{ object.role.hp }}</td>
+					<td class="stat col-sm-1">{{ object.role.strength }}</td>
+					<td class="stat col-sm-1">{{ object.role.magic }}</td>
+					<td class="stat col-sm-1">{{ object.role.skill }}</td>
+					<td class="stat col-sm-1">{{ object.role.speed }}</td>
+					<td class="stat col-sm-1">{{ object.role.luck }}</td>
+					<td class="stat col-sm-1">{{ object.role.defense }}</td>
+					<td class="stat col-sm-1">{{ object.role.resistance }}</td>
+					<td class="stat col-sm-1">{{ object.role.constitution }}</td>
+				</tr>
+			</table>
+		</div>
+	</article>
+	<br>
+	{% if object.user == user %}
+		<h3>Stats and Growths</h3>
+		<div>
+			{% if not object.stat_set %}
+				<a class='btn btn-primary btn-sm mt-1 mb-1' href="{% url 'stat-create' object.id %}">Add Stats</a>
+			{% else %}
+				<a class='btn btn-primary btn-sm mt-1 mb-1' href="{% url 'stat-detail' object.stat_set.id %}">View Stats</a>
+				<a class='btn btn-secondary btn-sm mt-1 mb-1' href="{% url 'stat-update' object.stat_set.id %}">Update Stats</a>
+			{% endif %}
+			{% if not object.growth_set %}
+				<a class='btn btn-primary btn-sm mt-1 mb-1' href="{% url 'growth-create' object.id %}">Add Growths</a>
+			{% else %}
+				<a class='btn btn-primary btn-sm mt-1 mb-1' href="{% url 'growth-detail' object.growth_set.id %}">View Growths</a>
+				<a class='btn btn-secondary btn-sm mt-1 mb-1' href="{% url 'growth-update' object.growth_set.id %}">Update Growths</a>
+			{% endif %}
+		</div>
+		<br>
+	{% endif %}
+	<h3>Equipment</h3>
+	{% if object.user == user %}
+		<div>
+			<a class='btn btn-primary btn-sm mt-1 mb-1' href="{% url 'equipment-create' object.id %}">Add Equipment</a>
+		</div>
+	{% endif %}
+	{% if not object.equipment_set.all %}
+		<div>No Equipment found for {{ object.name }}</div>
+		<br>
+	{% endif %}
+	{% for equipment in object.equipment_set.all %}
+		<article class="media content-section {{ object.get_affinity_display }}">
+			<div>
+				<h5><a class="equipment_names" href="{% url 'equipment-detail' equipment.id %}">{{ equipment.rp_name }}</a> <small class="text-muted">[{{ equipment.bot_name }}]</small></h5>
+				{% if equipment.prf %}
+					<div>PRF Weapon</div>
+				{% else %}
+					<div>NOT PRF</div>
+				{% endif %}
+				<div>Weapon Type: {{ equipment.get_weapon_type_display }} (Subtype: {{ equipment.get_subtype_display }})</div>
+				<div>Rank: {{ equipment.rank }}</div>
+				<br>
+				<table class="weapon-stats">
+					<tr>
+						<th class="stat weapon-stats">MT</th>
+						{% if equipment.might == -256 %}
+							<td class="stat weapon-stats">--</td>
+						{% else %}
+							<td class="stat weapon-stats">{{ equipment.might }}</td>
+						{% endif %}
+
+						<th class="stat weapon-stats">WT</th>
+						{% if equipment.weight == -256 %}
+							<td class="stat weapon-stats">--</td>
+						{% else %}
+							<td class="stat weapon-stats">{{ equipment.weight }}</td>
+						{% endif %}
+
+						<th class="stat weapon-stats">Hit</th>
+						{% if equipment.hit == -256 %}
+							<td class="stat weapon-stats">--</td>
+						{% else %}
+							<td class="stat weapon-stats">{{ equipment.hit }}</td>
+						{% endif %}
+
+						<th class="stat weapon-stats">Crit</th>
+						{% if equipment.crit == -256 %}
+							<td class="stat weapon-stats">--</td>
+						{% else %}
+							<td class="stat weapon-stats">{{ equipment.crit }}</td>
+						{% endif %}
+					</tr>
+					<tr>
+						<th class="stat weapon-stats">Range</th>
+						<td class="stat weapon-stats">{{ equipment.rng_min }}~{{ equipment.rng_max }}</td>
+
+						<th class="stat weapon-stats">Uses</th>
+						{% if equipment.uses == 0 %}
+							<td class="stat weapon-stats">--</td>
+						{% else %}
+							<td class="stat weapon-stats">{{ equipment.uses }}</td>
+						{% endif %}
+
+						<th class="stat weapon-stats">Block</th>
+						{% if equipment.block == -256 %}
+							<td class="stat weapon-stats">--</td>
+						{% else %}
+							<td class="stat weapon-stats">{{ equipment.block }}</td>
+						{% endif %}
+
+						<th class="stat weapon-stats">Block DR</th>
+						{% if equipment.block_dr == -256 %}
+							<td class="stat weapon-stats">--</td>
+						{% else %}
+							<td class="stat weapon-stats">{{ equipment.block_dr }}</td>
+						{% endif %}
+					</tr>
+				</table>
+				<br>
+				<p><strong>Other:</strong> {{ equipment.other }}</p>
+				<hr class="solid">
+				<p><i>{{ equipment.epithet }}</i></p>
+				{% if object.user == user %}
+					<div>
+						<a class='btn btn-secondary btn-sm mt-1 mb-1' href="{% url 'equipment-update' equipment.id %}">Update Equipment</a>
+						<a class='btn btn-danger btn-sm mt-1 mb-1' href="{% url 'equipment-delete' equipment.id %}">Delete Equipment</a>
+					</div>
+				{% endif %}
+			</div>
+		</article>
+	{% endfor %}
+{% endblock content %}

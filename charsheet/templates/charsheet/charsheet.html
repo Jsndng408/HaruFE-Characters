@@ -1,0 +1,38 @@
+{% extends "blog/base.html" %}
+{% block content %}
+	<h1>HaruFE Characters</h1>
+	{% for character in characters %}
+		<article class="media content-section {{ character.get_affinity_display }}">
+			<img class="rounded-circle article-img" src="{{ character.user.profile.image.url }}">
+			<div class="media-body">
+				<div class="article-metadata">
+					<a class="mr-2" href="{% url 'user-characters' character.user.username %}">{{ character.user.username }}</a>
+					<small class="text-muted"> | Date created: {{ character.date_created }}</small>
+				</div>
+				<h2><a class="char_names" href="{% url 'character-sheet-detail' character.id %}">{{ character.name }}</a></h2>
+				<div>
+					<p class="text-muted">Level {{ character.level }} {{ character.role.name }}</p>
+				</div>
+				<table>
+					<tr>
+						<th class="col-lg-6 col-md-12 d-flex">Origin</th>
+						<td>{{ character.origin }}</td>
+					</tr>
+					<tr>
+						<th class="col-lg-6 col-md-12 d-flex">Affinity</th>
+						<td>{{ character.get_affinity_display }}</td>
+					</tr>
+					<tr>
+						<th class="col-lg-6 col-md-12 d-flex">Boon</th>
+						<td>{{ character.get_boon_display }}</td>
+					</tr>
+					<tr>
+						<th class="col-lg-6 col-md-12 d-flex">Bane</th>
+						<td>{{ character.get_bane_display }}</td>
+					</tr>
+				</table>
+				<br>
+			</div>
+		</article>
+	{% endfor %}
+{% endblock content %}

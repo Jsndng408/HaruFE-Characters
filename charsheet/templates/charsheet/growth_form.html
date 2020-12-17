@@ -1,0 +1,17 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %} <!-- pip install django-crispy-forms -->
+{% block content %}
+	<div class="content-section NULL">
+		<form method="POST">
+			{% csrf_token %}
+			<fieldset class="form-group">
+				<legend class="border-bottom mb-4">Stats</legend>
+				<p><small>Add growths in decimal form (i.e. a 77 HP Growth becomes 0.77)</small></p>
+				{{ form|crispy }}
+			</fieldset>
+			<div class="form-group">
+				<button class="btn btn-outline-info" type="submit">Submit</button>
+			</div>
+		</form>
+	</div>
+{% endblock content %}

@@ -1,0 +1,20 @@
+{% extends "blog/base.html" %}
+{% load apptags %}
+{% block content %}
+	<h3>Growths</h3>
+	<article class="media content-section NULL">
+		<div>{{ object.owner.name }} - Growths</div>
+		<ul>
+			<li>HP: {{ object.hp|percentage }}</li>
+			<li>HP: {{ object.strength|percentage }}</li>
+			<li>HP: {{ object.magic|percentage }}</li>
+			<li>HP: {{ object.skill|percentage }}</li>
+			<li>HP: {{ object.speed|percentage }}</li>
+			<li>HP: {{ object.luck|percentage }}</li>
+			<li>HP: {{ object.defense|percentage }}</li>
+			<li>HP: {{ object.resistance|percentage }}</li>
+			<li>HP: {{ object.constitution|percentage }}</li>
+		</ul>
+	</article>
+	<a class='btn btn-primary btn-sm mt-1 mb-1' href="{% url 'character-sheet-detail' object.owner.id %}">Return to Character</a>
+{% endblock content %}

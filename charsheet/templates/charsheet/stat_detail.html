@@ -1,0 +1,19 @@
+{% extends "blog/base.html" %}
+{% block content %}
+	<h3>Stats</h3>
+	<article class="media content-section NULL">
+		<div>{{ object.owner.name }} - Stats</div>
+		<ul>
+			<li>HP: {{ object.hp }}</li>
+			<li>HP: {{ object.strength }}</li>
+			<li>HP: {{ object.magic }}</li>
+			<li>HP: {{ object.skill }}</li>
+			<li>HP: {{ object.speed }}</li>
+			<li>HP: {{ object.luck }}</li>
+			<li>HP: {{ object.defense }}</li>
+			<li>HP: {{ object.resistance }}</li>
+			<li>HP: {{ object.constitution }}</li>
+		</ul>
+	</article>
+	<a class='btn btn-primary btn-sm mt-1 mb-1' href="{% url 'character-sheet-detail' object.owner.id %}">Return to Character</a>
+{% endblock content %}

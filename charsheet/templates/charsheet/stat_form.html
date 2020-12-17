@@ -1,0 +1,17 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %} <!-- pip install django-crispy-forms -->
+{% block content %}
+	<div class="content-section NULL">
+		<form method="POST">
+			{% csrf_token %}
+			<fieldset class="form-group">
+				<legend class="border-bottom mb-4">Stats</legend>
+				{{ form|crispy }}
+			</fieldset>
+			<small>Note that adding a stat that is greater than the cap for said stat will set your stat to be at the cap</small>
+			<div class="form-group">
+				<button class="btn btn-outline-info" type="submit">Submit</button>
+			</div>
+		</form>
+	</div>
+{% endblock content %}
